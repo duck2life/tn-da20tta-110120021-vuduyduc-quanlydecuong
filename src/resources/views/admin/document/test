@@ -1,0 +1,84 @@
+       // $out = Output::getOutID($doc->output_id);  
+        if (!$out) {  
+            return redirect()->back()->withErrors(['error' => 'Output not found.']);  
+        }  
+        $validated = $request->validate([  
+            'knowledge.*.stt' => 'required',  
+            'knowledge.*.learning_outcomes' => 'required',  
+            'knowledge.*.outcomes' => 'required',  
+            'knowledge.*.competency_level' => 'required',  
+            'knowledge.*.tua' => 'required',  
+
+            'skill.*.stt' => 'required',  
+            'skill.*.learning_outcomes' => 'required',  
+            'skill.*.outcomes' => 'required',  
+            'skill.*.competency_level' => 'required',  
+            'skill.*.tua' => 'required',  
+
+            'attitude.*.stt' => 'required',  
+            'attitude.*.learning_outcomes' => 'required',  
+            'attitude.*.outcomes' => 'required',  
+            'attitude.*.competency_level' => 'required',  
+            'attitude.*.tua' => 'required', 
+        ]);   
+
+        // Initialize arrays for processing knowledge data  
+        $knowledgeStt = [];  
+        $knowledgeLearningOutcomes = [];  
+        $knowledgeOutcomes = [];  
+        $knowledgeCompetencyLevels = [];  
+        $knowledgeTua = [];  
+
+        // Processing knowledge data  
+        foreach ($validated['knowledge'] as $row) {  
+            $knowledgeStt[] = $row['stt'] ?? '';  
+            $knowledgeLearningOutcomes[] = $row['learning_outcomes'] ?? '';  
+            $knowledgeOutcomes[] = $row['outcomes'] ?? '';  
+            $knowledgeCompetencyLevels[] = $row['competency_level'] ?? '';  
+            $knowledgeTua[] = $row['tua'] ?? '';  
+        }  
+
+        // Initialize arrays for processing skill data  
+        $skillSTT = [];  
+        $skillLearningOutcomes = [];  
+        $skillOutcomes = [];  
+        $skillCompetencyLevels = [];  
+        $skillTua = [];  
+
+        // Processing skill data  
+        foreach ($validated['skill'] as $row) {  
+            $skillSTT[] = $row['stt'] ?? '';  
+            $skillLearningOutcomes[] = $row['learning_outcomes'] ?? '';  
+            $skillOutcomes[] = $row['outcomes'] ?? '';  
+            $skillCompetencyLevels[] = $row['competency_level'] ?? '';  
+            $skillTua[] = $row['tua'] ?? '';  
+        }   
+
+        // Initialize arrays for processing attitude data  
+        $attitudeStt = [];  
+        $attitudeLearningOutcomes = [];  
+        $attitudeOutcomes = [];  
+        $attitudeCompetencyLevels = [];  
+        $attitudeTua = [];  
+
+        // Processing attitude data  
+        foreach ($validated['attitude'] as $row) {  
+            $attitudeStt[] = $row['stt'] ?? '';  
+            $attitudeLearningOutcomes[] = $row['learning_outcomes'] ?? '';  
+            $attitudeOutcomes[] = $row['outcomes'] ?? '';  
+            $attitudeCompetencyLevels[] = $row['competency_level'] ?? '';  
+            $attitudeTua[] = $row['tua'] ?? '';  
+        }  
+
+        // Combine data into single strings for each category  
+        $finalStt = implode('/ ', $knowledgeStt) . ' |' . implode('/ ', $skillSTT) . ' |' . implode('/ ', $attitudeStt);  
+        $finalLearningOutcomes = implode('/ ', $knowledgeLearningOutcomes) . ' |' . implode('/ ', $skillLearningOutcomes) . ' |' . implode('/ ', $attitudeLearningOutcomes);  
+        $finalOutcomes = implode('/ ', $knowledgeOutcomes) . ' |' . implode('/ ', $skillOutcomes) . ' |' . implode('/ ', $attitudeOutcomes);  
+        $finalCompetencyLevels = implode('/ ', $knowledgeCompetencyLevels) . ' |' . implode('/ ', $skillCompetencyLevels) . ' |' . implode('/ ', $attitudeCompetencyLevels);  
+        $finalTua = implode('/ ', $knowledgeTua) . ' |' . implode('/ ', $skillTua) . ' |' . implode('/ ', $attitudeTua);  
+
+        $out->stt = json_encode($finalStt, JSON_UNESCAPED_UNICODE); 
+        $out->learning_outcomes = json_encode($finalLearningOutcomes, JSON_UNESCAPED_UNICODE); 
+        $out->outcomes = json_encode($finalOutcomes, JSON_UNESCAPED_UNICODE); 
+        $out->competency_level = json_encode($finalCompetencyLevels, JSON_UNESCAPED_UNICODE); 
+        $out->tua = json_encode($finalTua, JSON_UNESCAPED_UNICODE); 
