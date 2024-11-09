@@ -1,7 +1,7 @@
 # Đề tài: Xây dựng website quản lý quá trình cập nhật đề cương chi tiết học phần  
 
 ## Sinh viên thực hiện:  
-- **Họ tên:** Vũ Duy Đức  
+- **Họ tên:** Vủ Duy Đức  
 - **MSSV:** 110120021  
 - **Lớp:** DA20TTA  
 - **Email:** blacklmht@gmail.com  
